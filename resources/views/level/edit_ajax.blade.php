@@ -31,13 +31,13 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label>Level Code</label>
-                    <input value="{{ $level->level_kode }}" type="text" name="level_kode" id="level_kode" class="form-control" required>
-                    <small id="error-level_kode" class="error-text form-text text-danger"></small>
+                    <input value="{{ $level->level_kode }}" type="text" name="level_code" id="level_code" class="form-control" required>
+                    <small id="error-level_code" class="error-text form-text text-danger"></small>
                 </div>
                 <div class="form-group">
                     <label>Level Name</label>
-                    <input value="{{ $level->level_nama }}" type="text" name="level_nama" id="level_nama" class="form-control" required>
-                    <small id="error-level_nama" class="error-text form-text text-danger"></small>
+                    <input value="{{ $level->level_nama }}" type="text" name="level_name" id="level_name" class="form-control" required>
+                    <small id="error-level_name" class="error-text form-text text-danger"></small>
                 </div>
                 <div class="form-group">
                     <label>Description</label>
@@ -57,8 +57,8 @@
 $(document).ready(function() {
     $("#form-edit").validate({
         rules: {
-            level_kode: { required: true, minlength: 2, maxlength: 20 },
-            level_nama: { required: true, minlength: 3, maxlength: 50 },
+            level_code: { required: true, minlength: 2, maxlength: 20 },
+            level_name: { required: true, minlength: 3, maxlength: 50 },
             level_description: { required: true, minlength: 5, maxlength: 255 }
         },
         submitHandler: function(form) {

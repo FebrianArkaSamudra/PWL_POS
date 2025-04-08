@@ -1,4 +1,4 @@
-@empty($kategori)
+@empty($category)
     <div id="modal-master" class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -12,12 +12,12 @@
                     <h5><i class="fa fa-ban icon"></i> Error!!</h5>
                     The data you are looking for is not found
                 </div>
-                <a href="{{ url('/kategori') }}" class="btn btn-warning">Return</a>
+                <a href="{{ url('/category') }}" class="btn btn-warning">Return</a>
             </div>
         </div>
     </div>
 @else
-    <form action="{{ url('/kategori/' . $kategori->kategori_id . '/delete_ajax') }}" method="POST" id="form-delete">
+    <form action="{{ url('/category/' . $category->category_id . '/delete_ajax') }}" method="POST" id="form-delete">
         @csrf
         @method('DELETE')
         <div id="modal-master" class="modal-dialog modal-lg" role="document">
@@ -35,16 +35,16 @@
                     </div>
                     <table class="table table-sm table-bordered table-striped">
                         <tr>
-                            <th class="text-right col-3">Category ID:</th>
-                            <td class="col-9">{{ $kategori->kategori_id }}</td>
+                            <th class="text-right col-3">ID:</th>
+                            <td class="col-9">{{ $category->kategori_id }}</td>
                         </tr>
                         <tr>
-                            <th class="text-right col-3">Category Name:</th>
-                            <td class="col-9">{{ $kategori->nama_kategori }}</td>
+                            <th class="text-right col-3">Kode Kategori:</th>
+                            <td class="col-9">{{ $category->kategori_kode }}</td>
                         </tr>
                         <tr>
-                            <th class="text-right col-3">Category Level:</th>
-                            <td class="col-9">{{ $kategori->level_kategori }}</td>
+                            <th class="text-right col-3">Nama Kategori :</th>
+                            <td class="col-9">{{ $category->kategori_nama }}</td>
                         </tr>
                     </table>
                 </div>

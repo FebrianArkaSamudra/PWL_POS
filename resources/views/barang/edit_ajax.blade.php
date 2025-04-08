@@ -62,7 +62,7 @@
 $(document).ready(function() {
     $("#form-edit").validate({
         rules: {
-            kategori_id: { required: true, number: true },
+            category_id: { required: true, number: true },
             barang_kode: { required: true, minlength: 3, maxlength: 10 },
             barang_nama: { required: true, minlength: 3, maxlength: 100 },
             harga_beli: { required: true, number: true, min: 0 },

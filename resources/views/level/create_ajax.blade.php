@@ -11,8 +11,8 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label>Level Name</label>
-                    <input type="text" name="level_nama" id="level_nama" class="form-control" required>
-                    <small id="error-level_nama" class="error-text form-text text-danger"></small>
+                    <input type="text" name="level_name" id="level_name" class="form-control" required>
+                    <small id="error-level_name" class="error-text form-text text-danger"></small>
                 </div>
                 <div class="form-group">
                     <label>Description</label>
@@ -32,7 +32,7 @@
 $(document).ready(function() {
     $("#form-add").validate({
         rules: {
-            level_nama: { required: true, minlength: 3, maxlength: 50 },
+            level_name: { required: true, minlength: 3, maxlength: 50 },
             level_description: { required: true, minlength: 5, maxlength: 255 }
         },
         submitHandler: function(form) {

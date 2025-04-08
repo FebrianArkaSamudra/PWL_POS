@@ -53,18 +53,18 @@ class KategoriController extends Controller
 
     public function list(Request $request)
     {
-        $categories = KategoriModel::select('kategori_id', 'level_kategori', 'nama_kategori');
+        $kategoris = KategoriModel::select('kategori_id', 'kategori_kode', 'kategori_nama');
 
-        return DataTables::of($categories)
-            ->addIndexColumn()
-            ->addColumn('action', function ($category) {
-                $btn = '<button onclick="modalAction(\''.url('/kategori/' . $category->kategori_id . '/show_ajax').'\')" class="btn btn-info btn-sm">Detail</button> ';
-                $btn .= '<button onclick="modalAction(\''.url('/kategori/' . $category->kategori_id . '/edit_ajax').'\')" class="btn btn-warning btn-sm">Edit</button> ';
-                $btn .= '<button onclick="modalAction(\''.url('/kategori/' . $category->kategori_id . '/delete_ajax').'\')" class="btn btn-danger btn-sm">Delete</button> ';
-                return $btn;
-            })
-            ->rawColumns(['action'])
-            ->make(true);
+return DataTables::of($kategoris)
+    ->addIndexColumn()
+    ->addColumn('action', function ($category) {
+        $btn = '<button onclick="modalAction(\''.url('/kategori/' . $category->kategori_id . '/show_ajax').'\')" class="btn btn-info btn-sm">Detail</button> ';
+        $btn .= '<button onclick="modalAction(\''.url('/kategori/' . $category->kategori_id . '/edit_ajax').'\')" class="btn btn-warning btn-sm">Edit</button> ';
+        $btn .= '<button onclick="modalAction(\''.url('/kategori/' . $category->kategori_id . '/delete_ajax').'\')" class="btn btn-danger btn-sm">Delete</button> ';
+        return $btn;
+    })
+    ->rawColumns(['action'])
+    ->make(true);
     }
 
     public function store(Request $request)
@@ -140,8 +140,8 @@ class KategoriController extends Controller
     {
         if ($request->ajax() || $request->wantsJson()) {
             $rules = [
-                'kategori_kode' => 'required|string|max:10|unique:kategoris,kategori_kode',
-                'kategori_nama' => 'required|string|max:50'
+                'category_code' => 'required|string|max:10|unique:kategoris,category_code',
+                'category_name' => 'required|string|max:50'
             ];
 
             $validator = Validator::make($request->all(), $rules);
@@ -167,78 +167,85 @@ class KategoriController extends Controller
 
     public function edit_ajax(string $id)
     {
-        $kategori = KategoriModel::find($id);
+        $category = KategoriModel::find($id);
         $kategoriList = KategoriModel::all();
     
-        if (!$kategori) {
+        // Check if the category exists
+        if (!$category) {
             return response()->json([
                 'status' => false,
                 'message' => 'Data not found'
             ], 404);
         }
     
-        return view('kategori.edit_ajax', compact('kategori', 'kategoriList'));
+        return view('kategori.edit_ajax', compact('category', 'kategoriList'));
     }
 
     public function update_ajax(Request $request, $id)
 {
+    // Log the incoming request data for debugging
     Log::info("Received update request: ", $request->all());
 
     // Validate the request data
     $validator = Validator::make($request->all(), [
-        'level_kategori' => 'required|string', 
-        'nama_kategori' => 'required|string',  
+        'category_code' => 'required|string', // Ensure level_kategori is provided
+        'category_name' => 'required|string',  // Ensure nama_kategori is provided and not null
     ]);
 
+    // If validation fails, return a JSON response with errors
     if ($validator->fails()) {
         return response()->json([
             'status' => false,
             'message' => 'Validation error',
             'errors' => $validator->errors()
-        ], 422); 
+        ], 422); // 422 is the HTTP status code for validation errors
     }
 
-    $kategori = KategoriModel::find($id);
-    if (!$kategori) {
+    // Find the category by ID
+    $category = KategoriModel::find($id);
+    if (!$category) {
         return response()->json([
             'status' => false,
             'message' => 'Category not found'
-        ], 404);
+        ], 404); // 404 is the HTTP status code for "Not Found"
     }
 
+    // Update the category
     try {
-        $kategori->update([
-            'level_kategori' => $request->input('level_kategori'),
-            'nama_kategori' => $request->input('nama_kategori'),
+        $category->update([
+            'category_code' => $request->input('category_code'),
+            'category_name' => $request->input('category_name'),
         ]);
 
+        // Return the updated category data
         return response()->json([
             'status' => true,
             'message' => 'Category updated successfully',
-            'data' => $kategori 
-        ], 200); 
+            'data' => $category // Include the updated category data in the response
+        ], 200); // 200 is the HTTP status code for "OK"
     } catch (\Exception $e) {
+        // Log the error for debugging
         Log::error("Error updating category: " . $e->getMessage());
 
         return response()->json([
             'status' => false,
             'message' => 'Failed to update category',
-            'error' => $e->getMessage()
-        ], 500); 
+            'error' => $e->getMessage() // Include the error message in the response (optional)
+        ], 500); // 500 is the HTTP status code for server errors
     }
 }
     public function confirm_ajax(string $id)
     {
-        $kategori = KategoriModel::find($id);
-        return view('kategori.confirm_ajax', ['kategori' => $kategori]);
+        $category = KategoriModel::find($id);
+        return view('kategori.confirm_ajax', ['category' => $category]);
     }
 
     public function delete_ajax(Request $request, $id)
     {
         if ($request->ajax() || $request->wantsJson()) {
-            $kategori = KategoriModel::find($id);
-            if ($kategori) {
-                $kategori->delete();
+            $category = KategoriModel::find($id);
+            if ($category) {
+                $category->delete();
                 return response()->json([
                     'status' => true,
                     'message' => 'Kategori successfully deleted!'

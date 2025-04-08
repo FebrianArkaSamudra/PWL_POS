@@ -1,3 +1,4 @@
+
 <form action="{{ url('/kategori/ajax') }}" method="POST" id="form-add">
     @csrf
     <div id="modal-master" class="modal-dialog modal-lg" role="document">
@@ -11,18 +12,18 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label>Kategori ID</label>
-                    <input type="text" name="kategori_id" id="kategori_id" class="form-control" required>
-                    <small id="error-kategori_id" class="error-text form-text text-danger"></small>
+                    <input type="text" name="category_id" id="category_id" class="form-control" required>
+                    <small id="error-category_id" class="error-text form-text text-danger"></small>
                 </div>
                 <div class="form-group">
                     <label>Kategori Level</label>
-                    <input type="text" name="level_kategori" id="level_kategori" class="form-control" required>
-                    <small id="error-level_kategori" class="error-text form-text text-danger"></small>
+                    <input type="text" name="category_code" id="category_code" class="form-control" required>
+                    <small id="error-category_code" class="error-text form-text text-danger"></small>
                 </div>
                 <div class="form-group">
                     <label>Kategori Name</label>
-                    <input type="text" name="nama_kategori" id="nama_kategori" class="form-control" required>
-                    <small id="error-nama_kategori" class="error-text form-text text-danger"></small>
+                    <input type="text" name="category_name" id="category_name" class="form-control" required>
+                    <small id="error-category_name" class="error-text form-text text-danger"></small>
                 </div>
             </div>
             <div class="modal-footer">
@@ -37,9 +38,9 @@
 $(document).ready(function() {
     $("#form-add").validate({
         rules: {
-            kategori_id: { required: true, digits: true, minlength: 1, maxlength: 10 },
-            level_kategori: { required: true, minlength: 2, maxlength: 20 },
-            nama_kategori: { required: true, minlength: 3, maxlength: 50 }
+            category_id: { required: true, digits: true, minlength: 1, maxlength: 10 },
+            category_code: { required: true, minlength: 2, maxlength: 20 },
+            category_name: { required: true, minlength: 3, maxlength: 50 }
         
         },
         submitHandler: function(form) {

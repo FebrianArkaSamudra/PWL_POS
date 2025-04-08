@@ -1,4 +1,4 @@
-@empty ($kategori)
+@empty ($category)
 <div id="modal-master" class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
         <div class="modal-header">
@@ -12,12 +12,12 @@
                 <h5><i class="fa fa-ban"></i> Error!!</h5>
                 The data you are looking for is not found
             </div>
-            <a href="{{ url('/kategori') }}" class="btn btn-warning">Return</a>
+            <a href="{{ url('/category') }}" class="btn btn-warning">Return</a>
         </div>
     </div>
 </div>
 @else
-<form action="{{ url('/kategori/' . $kategori->kategori_id . '/update_ajax') }}" method="POST" id="form-edit">
+<form action="{{ url('/category/' . $category->category_id . '/update_ajax') }}" method="POST" id="form-edit">
     @csrf
     @method('PUT')
     <div id="modal-master" class="modal-dialog modal-lg" role="document">
@@ -30,40 +30,40 @@
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label>Kategori ID</label>
-                    <select name="kategori_id" id="kategori_id" class="form-control" required>
+                    <label>ID</label>
+                    <select name="category_id" id="category_id" class="form-control" required>
                         <option value="">-- Select Kategori ID --</option>
                         @foreach ($kategoriList as $item)
-                            <option value="{{ $item->kategori_id }}" {{ $item->kategori_id == $kategori->kategori_id ? 'selected' : '' }}>
+                            <option value="{{ $item->kategori_id }}" {{ $item->kategori_id == $category->kategori_id ? 'selected' : '' }}>
                                 {{ $item->kategori_id }}
                             </option>
                         @endforeach
                     </select>
-                    <small id="error-kategori_id" class="error-text form-text text-danger"></small>
+                    <small id="error-category_id" class="error-text form-text text-danger"></small>
                 </div>
                 <div class="form-group">
-                    <label>Kategori Level</label>
-                    <select name="level_kategori" id="level_kategori" class="form-control" required>
+                    <label>Kode Kategori</label>
+                    <select name="category_code" id="category_code" class="form-control" required>
                         <option value="">-- Select Level --</option>
                         @foreach ($kategoriList as $item)
-                            <option value="{{ $item->level_kategori }}" {{ $item->level_kategori == $kategori->level_kategori ? 'selected' : '' }}>
-                                {{ $item->level_kategori }}
+                            <option value="{{ $item->kategori_kode }}" {{ $item->kategori_kode == $category->kategori_kode ? 'selected' : '' }}>
+                                {{ $item->kategori_kode }}
                             </option>
                         @endforeach
                     </select>
-                    <small id="error-level_kategori" class="error-text form-text text-danger"></small>
+                    <small id="error-category_code" class="error-text form-text text-danger"></small>
                 </div>
                 <div class="form-group">
-                    <label>Kategori Name</label>
-                    <select name="kategori_nama" id="nama_kategori" class="form-control" required>
+                    <label>Nama Kategori</label>
+                    <select name="category_name" id="category_name" class="form-control" required>
                         <option value="">-- Select Kategori Name --</option>
                         @foreach ($kategoriList as $item)
-                            <option value="{{ $item->nama_kategori }}" {{ $item->nama_kategori == $kategori->nama_kategori ? 'selected' : '' }}>
-                                {{ $item->nama_kategori }}
+                            <option value="{{ $item->kategori_nama }}" {{ $item->kategori_nama == $category->kategori_nama ? 'selected' : '' }}>
+                                {{ $item->kategori_nama }}
                             </option>
                         @endforeach
                     </select>
-                    <small id="error-nama_kategori" class="error-text form-text text-danger"></small>
+                    <small id="error-category_name" class="error-text form-text text-danger"></small>
                 </div>
             </div>
             <div class="modal-footer">
@@ -78,9 +78,9 @@
 $(document).ready(function() {
     $("#form-edit").validate({
         rules: {
-            kategori_id: { required: true, digits: true, minlength: 1, maxlength: 10 },
-            level_kategori: { required: true, minlength: 2, maxlength: 20 },
-            nama_kategori: { required: true, minlength: 3, maxlength: 50 }
+            category_id: { required: true, digits: true, minlength: 1, maxlength: 10 },
+            category_code: { required: true, minlength: 2, maxlength: 20 },
+            category_name: { required: true, minlength: 3, maxlength: 50 }
         },
         submitHandler: function(form) {
             $.ajax({

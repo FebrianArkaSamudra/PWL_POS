@@ -11,15 +11,15 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label>Kategori ID</label>
-                    <select name="kategori_id" id="kategori_id" class="form-control" required>
+                    <select name="category_id" id="category_id" class="form-control" required>
                         <option value="">-- Select Kategori ID --</option>
                         @foreach ($kategoriList as $item)
-                            <option value="{{ $item->kategori_id }}">
-                                {{ $item->kategori_id }} - {{ $item->kategori_nama }} <!-- Display both ID and name for clarity -->
+                            <option value="{{ $item->category_id }}">
+                                {{ $item->category_id }} - {{ $item->category_name }} <!-- Display both ID and name for clarity -->
                             </option>
                         @endforeach
                     </select>
-                    <small id="error-kategori_id" class="error-text form-text text-danger"></small>
+                    <small id="error-category_id" class="error-text form-text text-danger"></small>
                 </div>
                 <div class="form-group">
                     <label>Barang Kode</label>
@@ -54,7 +54,7 @@
 $(document).ready(function() {
     $("#form-add").validate({
         rules: {
-            kategori_id: { required: true, number: true },
+            category_id: { required: true, number: true },
             barang_kode: { required: true, minlength: 3, maxlength: 10 },
             barang_nama: { required: true, minlength: 3, maxlength: 100 },
             harga_beli: { required: true, number: true },
