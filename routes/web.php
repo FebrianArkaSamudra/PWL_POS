@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\LevelController;
+use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -22,6 +24,16 @@ use Illuminate\Support\Facades\Route;
 // Route::get('/user/hapus/{id}', [UserController::class, 'hapus']);
 // Route::get('/', [WelcomeController::class, 'index']);
 
+Route::pattern('id','[0-9]+');
+
+Route::get('login',[AuthController::class, 'login'])->name('login');
+Route::post('login',[AuthController::class, 'postlogin']);
+Route::get('logout',[AuthController::class, 'logout'])->middleware('auth');
+
+Route::get('register', [RegisterController::class, 'register'])->name('register');
+Route::post('register', [RegisterController::class, 'postregister'])->name('register.post');
+
+Route::middleware(['auth'])->group(function(){
 Route::get("/", [WelcomeController::class, 'index']);
 
 Route::group(['prefix' => 'user'], function () {
@@ -36,12 +48,12 @@ Route::group(['prefix' => 'user'], function () {
     Route::put('/{id}', [UserController::class, 'update']); // menyimpan perubahan data user
     Route::get('/{id}/edit_ajax', [UserController::class, 'edit_ajax' ]);
     Route::put('/{id}/update_ajax', [UserController::class, 'update_ajax' ]);
-    Route::get('/{id}/delete_ajax', [UserController::class, 'confirm_ajax' ]);
+    Route::get('/{id}``/delete_ajax', [UserController::class, 'confirm_ajax' ]);
     Route::delete('/{id}/delete_ajax', [UserController::class, 'delete_ajax' ]);
     Route::delete('/{id}', [UserController::class, 'destroy']); // menghapus data user
 });
 
-Route::group(['prefix' => 'level'], function () {
+Route::middleware(['authorize:ADM,MNG'])->prefix('level')->group(function () {
     Route::get('/', [LevelController::class, 'index']);
     Route::post('/list', [LevelController::class, 'list']);
     Route::get('/create', [LevelController::class, 'create']);
@@ -98,4 +110,5 @@ Route::group(['prefix' => 'barang'], function () {
     Route::get('/{id}/delete_ajax', [BarangController::class, 'confirm_ajax' ]);
     Route::delete('/{id}/delete_ajax', [BarangController::class, 'delete_ajax' ]);
     Route::delete('/{id}', [BarangController::class, 'destroy']);
+});
 });
