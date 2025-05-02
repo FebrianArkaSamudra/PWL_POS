@@ -211,22 +211,22 @@ class UserController extends Controller
             $users->where('level_id', $request->level_id); 
         } 
         
-        return DataTables::of($users)  
-            ->addIndexColumn() 
-            ->addColumn('action', function ($user) { 
-                $btn = '<button onclick="modalAction(\''.url('/user/' . $user->user_id . '/show_ajax').'\')" 
-                        class="btn btn-info btn-sm">Detail</button> ';
-                
-                $btn .= '<button onclick="modalAction(\''.url('/user/' . $user->user_id . '/edit_ajax').'\')" 
-                         class="btn btn-warning btn-sm">Edit</button> ';
-                
-                $btn .= '<button onclick="modalAction(\''.url('/user/' . $user->user_id . '/delete_ajax').'\')" 
-                         class="btn btn-danger btn-sm">Delete</button> ';
-                
-                return $btn;  
-            })  
-            ->rawColumns(['action'])
-            ->make(true);  
+        return DataTables::of($users)
+        ->addIndexColumn() // Adds an index/no sort column (default column name: DT_RowIndex)
+        ->addColumn('action', function ($user) { // Add action column  
+            $btn = '<button onclick="modalAction(\'' . url('/user/' . $user->user_id ) . '\')" 
+                    class="btn btn-info btn-sm">Detail</button> ';
+
+            $btn .= '<button onclick="modalAction(\'' . url('/user/' . $user->user_id . '/edit_ajax') . '\')" 
+                     class="btn btn-warning btn-sm">Edit</button> ';
+
+            $btn .= '<button onclick="modalAction(\'' . url('/user/' . $user->user_id . '/delete_ajax') . '\')" 
+                     class="btn btn-danger btn-sm">Delete</button> ';
+
+            return $btn;
+        })
+        ->rawColumns(['action']) // Tells DataTables that the action column contains raw HTML  
+        ->make(true);
     }
 
 
@@ -283,7 +283,7 @@ class UserController extends Controller
 
     $activeMenu = 'user'; 
 
-    return view('user.show', ['breadcrumb' => $breadcrumb, 'page' => $page, 'user' => $user, 'activeMenu' => $activeMenu]);
+    return view('user.show_ajax', ['breadcrumb' => $breadcrumb, 'page' => $page, 'user' => $user, 'activeMenu' => $activeMenu]);
     }
 
     public function edit(string $id)
@@ -428,32 +428,30 @@ public function edit_ajax(string $id)
         return redirect('/');
     }
 
-    public function confirm_ajax(string $id){
+    public function confirm_ajax(string $id)
+    {
         $user = UserModel::find($id);
-
         return view('user.confirm_ajax', ['user' => $user]);
     }
 
     public function delete_ajax(Request $request, $id)
-{
-    // Cek apakah request berasal dari AJAX
-    if ($request->ajax() || $request->wantsJson()) {
-        $user = UserModel::find($id);
-        if ($user) {
-            $user->delete();
-            return response()->json([
-                'status' => true,
-                'message' => 'Data berhasil dihapus'
-            ]);
-        } else {
+    {
+        if ($request->ajax() || $request->wantsJson()) {
+            $user = UserModel::find($id);
+            if ($user) {
+                $user->delete();
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Data berhasil dihapus'
+                ]);
+            }
             return response()->json([
                 'status' => false,
                 'message' => 'Data tidak ditemukan'
             ]);
         }
+        return redirect('/');
     }
-    return redirect('/');
-}
 
     
 }

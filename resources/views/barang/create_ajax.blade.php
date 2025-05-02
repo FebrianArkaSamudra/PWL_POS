@@ -9,18 +9,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="form-group">
-                    <label>Kategori ID</label>
-                    <select name="category_id" id="category_id" class="form-control" required>
-                        <option value="">-- Select Kategori ID --</option>
-                        @foreach ($kategoriList as $item)
-                            <option value="{{ $item->category_id }}">
-                                {{ $item->category_id }} - {{ $item->category_name }} <!-- Display both ID and name for clarity -->
-                            </option>
-                        @endforeach
-                    </select>
-                    <small id="error-category_id" class="error-text form-text text-danger"></small>
-                </div>
+            
                 <div class="form-group">
                     <label>Barang Kode</label>
                     <input type="text" name="barang_kode" id="barang_kode" class="form-control" required>
@@ -54,7 +43,6 @@
 $(document).ready(function() {
     $("#form-add").validate({
         rules: {
-            category_id: { required: true, number: true },
             barang_kode: { required: true, minlength: 3, maxlength: 10 },
             barang_nama: { required: true, minlength: 3, maxlength: 100 },
             harga_beli: { required: true, number: true },

@@ -3,10 +3,9 @@
 @section('content')
     <div class="card card-outline card-primary">
         <div class="card-header">
-            <h3 class="card-title">Daftar Kategori</h3>
+            <h3 class="card-title">Category Draft</h3>
             <div class="card-tools">
-                <a class="btn btn-sm btn-primary mt-1" href="{{ url('kategori/create') }}">Tambah Kategori</a>
-                <button onclick="modalAction('{{ url('user/create_ajax') }}')" class="btn btn-sm btn-success mt-1">Tambah Ajax</button>
+                <button onclick="modalAction('{{ url('kategori/create_ajax') }}')" class="btn btn-sm btn-success mt-1">Add</button>
             </div>
         </div>
 
@@ -24,10 +23,10 @@
                     <div class="form-group row">
                         <label class="col-1 control-label col-form-label">Filter:</label>
                         <div class="col-3">
-                            <select class="form-control" id="kate" name="level_kategori">
-                                <option value="">- Semua -</option>
+                            <select class="form-control" id="kate" name="kategori_kode">
+                                <option value="">- All -</option>
                                 @foreach($kategoris as $item)
-                                    <option value="{{ $item->level_kategori }}">{{ $item->level_kategori }}</option>
+                                    <option value="{{ $item->kategori_kode }}">{{ $item->kategori_kode }}</option>
                                 @endforeach
                             </select>
                             <small class="form-text text-muted">Pilih Level Kategori</small>
@@ -41,8 +40,8 @@
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Kode Kategori</th>
-                        <th>Nama Kategori</th>
+                        <th>Category Code</th>
+                        <th>Category Name</th>
                         <th>Action</th>
                     </tr>
                 </thead>

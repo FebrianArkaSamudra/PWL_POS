@@ -17,7 +17,7 @@
     </div>
 </div>
 @else
-<form action="{{ url('/user/' . $user->user_id . '/update_ajax') }}" method="POST" id="form-edit">
+<form action="{{ url('/user/' . $user->user_id ) }}" method="POST" id="form-edit">
     @csrf
     @method('PUT')
     <div id="modal-master" class="modal-dialog modal-lg" role="document">
@@ -48,7 +48,7 @@
                 </div>
                 <div class="form-group">
                     <label>Name</label>
-                    <input value="{{ $user->name }}" type="text" name="name" id="name" class="form-control" required>
+                    <input value="{{ $user->nama }}" type="text" name="nama" id="nama" class="form-control" required>
                     <small id="error-name" class="error-text form-text text-danger"></small>
                 </div>
                 <div class="form-group">
@@ -72,7 +72,7 @@ $(document).ready(function() {
         rules: {
             level_id: { required: true, number: true },
             username: { required: true, minlength: 3, maxlength: 20 },
-            name: { required: true, minlength: 3, maxlength: 100 },
+            nama: { required: true, minlength: 3, maxlength: 100 },
             password: { minlength: 6, maxlength: 20 }
         },
         submitHandler: function(form) {

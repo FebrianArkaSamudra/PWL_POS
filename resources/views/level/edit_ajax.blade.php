@@ -31,18 +31,13 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label>Level Code</label>
-                    <input value="{{ $level->level_kode }}" type="text" name="level_code" id="level_code" class="form-control" required>
+                    <input value="{{ $level->level_kode }}" type="text" name="level_kode" id="level_kode" class="form-control" required>
                     <small id="error-level_code" class="error-text form-text text-danger"></small>
                 </div>
                 <div class="form-group">
                     <label>Level Name</label>
-                    <input value="{{ $level->level_nama }}" type="text" name="level_name" id="level_name" class="form-control" required>
+                    <input value="{{ $level->level_nama }}" type="text" name="level_nama" id="level_nama" class="form-control" required>
                     <small id="error-level_name" class="error-text form-text text-danger"></small>
-                </div>
-                <div class="form-group">
-                    <label>Description</label>
-                    <textarea name="level_description" id="level_description" class="form-control" required>{{ $level->level_description }}</textarea>
-                    <small id="error-level_description" class="error-text form-text text-danger"></small>
                 </div>
             </div>
             <div class="modal-footer">

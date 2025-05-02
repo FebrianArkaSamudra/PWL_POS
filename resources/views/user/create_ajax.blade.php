@@ -1,4 +1,4 @@
-<form action="{{ url('/user/ajax') }}" method="POST" id="form-add">
+<form action="{{ url('/user') }}" method="POST" id="form-add">
     @csrf
     <div id="modal-master" class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -26,7 +26,7 @@
                 </div>
                 <div class="form-group">
                     <label>Name</label>
-                    <input type="text" name="name" id="name" class="form-control" required>
+                    <input type="text" name="nama" id="nama" class="form-control" required>
                     <small id="error-name" class="error-text form-text text-danger"></small>
                 </div>
                 <div class="form-group">

@@ -11,13 +11,13 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label>Level Name</label>
-                    <input type="text" name="level_name" id="level_name" class="form-control" required>
-                    <small id="error-level_name" class="error-text form-text text-danger"></small>
+                    <input type="text" name="level_kode" id="level_kode" class="form-control" required>
+                    <small id="error-level_kode" class="error-text form-text text-danger"></small>
                 </div>
                 <div class="form-group">
                     <label>Description</label>
-                    <textarea name="level_description" id="level_description" class="form-control" required></textarea>
-                    <small id="error-level_description" class="error-text form-text text-danger"></small>
+                    <input type="text" name="level_nama" id="level_nama" class="form-control" required>
+                    <small id="error-level_nama class="error-text form-text text-danger"></small>
                 </div>
             </div>
             <div class="modal-footer">

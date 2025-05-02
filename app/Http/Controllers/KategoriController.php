@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
 
+use function Pest\Laravel\delete;
+
 class KategoriController extends Controller
 {
     public function index()
@@ -28,10 +30,17 @@ class KategoriController extends Controller
     }
 
     public function create()
-{
-    $kategori = KategoriModel::all(); // Ambil semua kategori dari database
-    return view('barang.create', compact('kategori'));
-}
+    {
+        $kategori = KategoriModel::all(); // Ambil semua kategori dari database
+        $activeMenu = 'kategori'; // Tambahkan ini
+
+        $breadcrumb = (object) [
+            'title' => 'Tambah Kategori',
+            'list' => ['Home', 'Kategori', 'Tambah']
+        ]; 
+
+        return view('kategori.create', compact('kategori', 'activeMenu', 'breadcrumb'));
+    }
 
     public function show(string $id)
     {
@@ -55,16 +64,16 @@ class KategoriController extends Controller
     {
         $kategoris = KategoriModel::select('kategori_id', 'kategori_kode', 'kategori_nama');
 
-return DataTables::of($kategoris)
-    ->addIndexColumn()
-    ->addColumn('action', function ($category) {
-        $btn = '<button onclick="modalAction(\''.url('/kategori/' . $category->kategori_id . '/show_ajax').'\')" class="btn btn-info btn-sm">Detail</button> ';
-        $btn .= '<button onclick="modalAction(\''.url('/kategori/' . $category->kategori_id . '/edit_ajax').'\')" class="btn btn-warning btn-sm">Edit</button> ';
-        $btn .= '<button onclick="modalAction(\''.url('/kategori/' . $category->kategori_id . '/delete_ajax').'\')" class="btn btn-danger btn-sm">Delete</button> ';
-        return $btn;
-    })
-    ->rawColumns(['action'])
-    ->make(true);
+        return DataTables::of($kategoris)
+        ->addIndexColumn()
+        ->addColumn('action', function ($kategori) {
+            $btn = '<button onclick="modalAction(\'' . url('/kategori/' . $kategori->kategori_id) . '\')" class="btn btn-info btn-sm">Detail</button> ';
+            $btn .= '<button onclick="modalAction(\'' . url('/kategori/' . $kategori->kategori_id . '/edit_ajax') . '\')" class="btn btn-warning btn-sm">Edit</button> ';
+            $btn .= '<button onclick="modalAction(\'' . url('/kategori/' . $kategori->kategori_id . '/delete_ajax') . '\')" class="btn btn-danger btn-sm">Delete</button> ';
+            return $btn;
+        })
+        ->rawColumns(['action'])
+        ->make(true);
     }
 
     public function store(Request $request)
@@ -98,7 +107,7 @@ return DataTables::of($kategoris)
         $activeMenu = 'kategori';
     
         // Mengambil daftar kategori yang bisa dipilih
-        $kategoriOptions = KategoriModel::select('nama_kategori')->distinct()->get();
+        $kategoriOptions = KategoriModel::select('kategori_nama')->distinct()->get();
     
         return view('kategori.edit', compact('breadcrumb', 'page', 'kategori', 'kategoriOptions', 'activeMenu'));
     }
@@ -140,8 +149,8 @@ return DataTables::of($kategoris)
     {
         if ($request->ajax() || $request->wantsJson()) {
             $rules = [
-                'category_code' => 'required|string|max:10|unique:kategoris,category_code',
-                'category_name' => 'required|string|max:50'
+                'kategori_kode' => 'required|string|max:10|unique:kategoris,kategori_kode',
+                'kategori_nama' => 'required|string|max:50'
             ];
 
             $validator = Validator::make($request->all(), $rules);
@@ -167,18 +176,18 @@ return DataTables::of($kategoris)
 
     public function edit_ajax(string $id)
     {
-        $category = KategoriModel::find($id);
+        $kategori = KategoriModel::find($id);
         $kategoriList = KategoriModel::all();
     
         // Check if the category exists
-        if (!$category) {
+        if (!$kategori) {
             return response()->json([
                 'status' => false,
                 'message' => 'Data not found'
             ], 404);
         }
     
-        return view('kategori.edit_ajax', compact('category', 'kategoriList'));
+        return view('kategori.edit_ajax', compact('kategori', 'kategoriList'));
     }
 
     public function update_ajax(Request $request, $id)
@@ -188,8 +197,8 @@ return DataTables::of($kategoris)
 
     // Validate the request data
     $validator = Validator::make($request->all(), [
-        'category_code' => 'required|string', // Ensure level_kategori is provided
-        'category_name' => 'required|string',  // Ensure nama_kategori is provided and not null
+        'kategori_kode' => 'required|string', // Ensure level_kategori is provided
+        'kategori_nama' => 'required|string',  // Ensure nama_kategori is provided and not null
     ]);
 
     // If validation fails, return a JSON response with errors
@@ -202,8 +211,8 @@ return DataTables::of($kategoris)
     }
 
     // Find the category by ID
-    $category = KategoriModel::find($id);
-    if (!$category) {
+    $kategori = KategoriModel::find($id);
+    if (!$kategori) {
         return response()->json([
             'status' => false,
             'message' => 'Category not found'
@@ -212,16 +221,16 @@ return DataTables::of($kategoris)
 
     // Update the category
     try {
-        $category->update([
-            'category_code' => $request->input('category_code'),
-            'category_name' => $request->input('category_name'),
+        $kategori->update([
+            'kategori_kode' => $request->input('kategori_kode'),
+            'kategori_nama' => $request->input('kategori_nama'),
         ]);
 
         // Return the updated category data
         return response()->json([
             'status' => true,
             'message' => 'Category updated successfully',
-            'data' => $category // Include the updated category data in the response
+            'data' => $kategori // Include the updated category data in the response
         ], 200); // 200 is the HTTP status code for "OK"
     } catch (\Exception $e) {
         // Log the error for debugging
@@ -236,16 +245,16 @@ return DataTables::of($kategoris)
 }
     public function confirm_ajax(string $id)
     {
-        $category = KategoriModel::find($id);
-        return view('kategori.confirm_ajax', ['category' => $category]);
+        $kategori = KategoriModel::find($id);
+        return view('kategori.confirm_ajax', ['kategori' => $kategori]);
     }
 
     public function delete_ajax(Request $request, $id)
     {
         if ($request->ajax() || $request->wantsJson()) {
-            $category = KategoriModel::find($id);
-            if ($category) {
-                $category->delete();
+            $kategori = KategoriModel::find($id);
+            if ($kategori) {
+                $kategori->delete();
                 return response()->json([
                     'status' => true,
                     'message' => 'Kategori successfully deleted!'

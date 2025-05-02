@@ -18,8 +18,12 @@
                     <td>{{ $level->level_id }}</td>
                 </tr>
                 <tr>
-                    <th>Nama Level</th>
-                    <td>{{ $level->level_nama }}</td>
+                    <th>Level Code</th>
+                    <td>{{ $level->level_kode }}</td>
+                </tr>
+                <tr>
+                    <th>Level Name</th>
+                    <td>{{ $level->level_nama}}</td>
                 </tr>
             </table>
 

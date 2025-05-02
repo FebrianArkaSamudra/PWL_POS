@@ -11,19 +11,14 @@
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label>Kategori ID</label>
-                    <input type="text" name="category_id" id="category_id" class="form-control" required>
-                    <small id="error-category_id" class="error-text form-text text-danger"></small>
+                    <label>Category Code</label>
+                    <input type="text" name="kategori_kode" id="kategori_kode" class="form-control" required>
+                    <small id="error-kategori_kode" class="error-text form-text text-danger"></small>
                 </div>
                 <div class="form-group">
-                    <label>Kategori Level</label>
-                    <input type="text" name="category_code" id="category_code" class="form-control" required>
-                    <small id="error-category_code" class="error-text form-text text-danger"></small>
-                </div>
-                <div class="form-group">
-                    <label>Kategori Name</label>
-                    <input type="text" name="category_name" id="category_name" class="form-control" required>
-                    <small id="error-category_name" class="error-text form-text text-danger"></small>
+                    <label>Category Name</label>
+                    <input type="text" name="kategori_nama" id="kategori_nama" class="form-control" required>
+                    <small id="error-kategori_nama" class="error-text form-text text-danger"></small>
                 </div>
             </div>
             <div class="modal-footer">
@@ -38,9 +33,8 @@
 $(document).ready(function() {
     $("#form-add").validate({
         rules: {
-            category_id: { required: true, digits: true, minlength: 1, maxlength: 10 },
-            category_code: { required: true, minlength: 2, maxlength: 20 },
-            category_name: { required: true, minlength: 3, maxlength: 50 }
+            kategori_kode: { required: true, minlength: 2, maxlength: 20 },
+            kategori_nama: { required: true, minlength: 3, maxlength: 50 }
         
         },
         submitHandler: function(form) {
